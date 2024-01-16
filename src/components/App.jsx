@@ -1,28 +1,42 @@
 import { ContactForm } from './ContactForm/ContactForm';
-import  ContactList  from './ContactForm/ContactList/ContactList';
-import '../redux/store';
+import { ContactList } from './ContactForm/ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 import css from './ContactForm/style.module.css'
-import Filter from './Filter/Filter'
 
+import '../redux/store';
+import { useEffect } from 'react';
+import { fetchContacts } from '../redux/operations';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from '../redux/selectors';
 
 export const App = () => {
- 
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
-    return (
-      <>
-        <div>
-          <h1>Phonebook</h1>
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
-          <ContactForm />
-
-          <h2 className={css.app}>Contacts</h2>
-          <Filter/>
-          <ContactList
-           
-          />
-        </div>
-      </>
-    );
-  }
-
+  return (
+    <>
+      <h2 className={css.app}>Phonebook</h2>
+      <ContactForm />
+      <h2 className={css.app}>Contacts list</h2>
+      {isLoading && !error && <b>Request in progress...</b>}
+      <ContactList />
+      {contacts.length > 0 ? (
+        <Filter />
+      ) : (
+        <div>Your phonebook is empty. Add first contact!</div>
+      )}
+      {/* <Filter /> */}
+    </>
+  );
+};
 
