@@ -33,7 +33,8 @@ export const ContactForm = () => {
 
   return (
     <div className={css.formContainer}>
-      <form onSubmit={handleSubmitContact}>
+        <form onSubmit={handleSubmitContact}>
+             
         <label>
           Name
           <input type="text" name="name" required />
