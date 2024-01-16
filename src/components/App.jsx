@@ -33,9 +33,9 @@ export const App = () => {
       {contacts.length > 0 ? (
         <Filter />
       ) : (
-        <div>Your phonebook is empty. Add first contact!</div>
+        <div className={css.app}>Your phonebook is empty. Add first contact!</div>
       )}
-      {/* <Filter /> */}
+ 
     </>
   );
 };
